@@ -3550,6 +3550,7 @@ background: linear-gradient(90deg, rgba(3,3,6,1) 1%, rgba(74,88,139,1) 44%, rgba
 		z-index: 10000;
 	}
 
+
 		#sidebar > .inner {
 			display: -moz-flex;
 			display: -webkit-flex;
@@ -3883,6 +3884,7 @@ background: linear-gradient(90deg, rgba(3,3,6,1) 1%, rgba(74,88,139,1) 44%, rgba
 
 		}
 
+
 /* Intro */
 
 	#intro {
@@ -3892,6 +3894,16 @@ background: linear-gradient(90deg, rgba(3,3,6,1) 1%, rgba(74,88,139,1) 44%, rgba
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
 	}
+
+/* Logo */
+       #intro > .logo {
+         position: absolute;
+         text-align: right;
+         padding: 20px 20px 20px 20px;
+         top: 0;
+         right: 0;    
+    }
+
 
 		#intro p {
 			font-size: 1.25em;
