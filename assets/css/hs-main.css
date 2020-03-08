@@ -3885,6 +3885,14 @@ background: linear-gradient(90deg, rgba(3,3,6,1) 1%, rgba(74,88,139,1) 44%, rgba
 		}
 
 
+.image-span, .image-text {
+    vertical-align:middle;
+}
+/*#mainh1 {
+    display:table;
+    width:100%;
+}*/
+
 /* Intro */
 
 	#intro {
