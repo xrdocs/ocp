@@ -3938,6 +3938,9 @@ background: linear-gradient(90deg, rgba(3,3,6,1) 1%, rgba(74,88,139,1) 44%, rgba
 					font-size: 1em;
 				}
 
+                                #intro > .inner {
+                                    text-align: center;
+                                }
 			}
 
 		@media screen and (max-width: 1280px) {
