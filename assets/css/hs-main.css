@@ -3241,8 +3241,10 @@ input, select, textarea {
 
 		.wrapper.style1 {
 			/*background-color: #5e42a6;*/
-                        background: rgb(21,16,32);
-                        background: linear-gradient(90deg, rgba(21,16,32,1) 1%, rgba(51,40,78,1) 39%, rgba(75,59,117,1) 100%);
+                        /*background: rgb(21,16,32);
+                        background: linear-gradient(90deg, rgba(21,16,32,1) 1%, rgba(51,40,78,1) 39%, rgba(75,59,117,1) 100%);*/
+                        background: rgb(32,24,48);
+                        background: linear-gradient(90deg, rgba(32,24,48,1) 1%, rgba(67,53,105,1) 40%, rgba(109,86,171,1) 100%);
 		}
 
 		.wrapper.style1-alt {
