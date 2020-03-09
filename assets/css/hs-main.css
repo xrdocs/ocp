@@ -3255,7 +3255,7 @@ input, select, textarea {
 		.wrapper.style1-alt {
 			/*background-color: #493382;*/
                        background: linear-gradient(to left, #434343, #000000);
-                       border-top: solid 1px rgba(255, 255, 255, 0.15)
+                       border-top: solid 0.5px rgba(255, 255, 255, 0.15)
 		}
 
 		.wrapper.style2 {
