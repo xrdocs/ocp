@@ -1,0 +1,1265 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>            Enabling IOS-XR on Third-Party Network Hardware      IOS XR Cloud Scale Networking @xrdocs      </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="IOS XR Cloud Scale Networking @xrdocs">
+<meta property="og:title" content="Enabling IOS-XR on Third-Party Network Hardware">
+
+
+  <link rel="canonical" href="http://localhost:4000/blogs/2018-03-08-enabling-ios-xr-on-third-party-network-hardware/">
+  <meta property="og:url" content="http://localhost:4000/blogs/2018-03-08-enabling-ios-xr-on-third-party-network-hardware/">
+
+
+
+  <meta property="og:description" content="As the ecosystem of the Service provider access market evolves to include disaggregated network devices as part of the scale-out strategy, Cisco is now enabling IOS-XR on select OCP-compliant network hardware. Here, we dive deeper into what it takes to work with the OCP and whitebox ecosystem and what IOS-XR is doing in this realm.">
+
+
+
+  <meta name="twitter:site" content="@CiscoDevNet">
+  <meta name="twitter:title" content="Enabling IOS-XR on Third-Party Network Hardware">
+  <meta name="twitter:description" content="As the ecosystem of the Service provider access market evolves to include disaggregated network devices as part of the scale-out strategy, Cisco is now enabling IOS-XR on select OCP-compliant network hardware. Here, we dive deeper into what it takes to work with the OCP and whitebox ecosystem and what IOS-XR is doing in this realm.">
+  <meta name="twitter:url" content="http://localhost:4000/blogs/2018-03-08-enabling-ios-xr-on-third-party-network-hardware/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+      <meta name="twitter:image" content="http://localhost:4000/images/cloud-scale-networking-xrdocs.jpg">
+    
+  
+
+  
+    <meta name="twitter:creator" content="@irakshat">
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2018-03-08T17:33:00+00:00">
+  
+    <link rel="next" href="http://localhost:4000/blogs/2018-03-08-introduction-to-p4-and-p4runtime/" title="Introduction to P4 and P4Runtime">
+  
+  
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/cloud-scale-networking-xrdocs.jpg"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "person",
+      "name" : "Cisco Systems Inc",
+      "url" : "http://localhost:4000",
+      "sameAs" : ["https://twitter.com/CiscoDevNet"]
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="IOS XR Cloud Scale Networking @xrdocs Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="jgRKKm6B9FwJJPXxpmc0-EP3D0Mh8JHXaJqoYIGj1ek" />
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<script>
+if (!(window.location.host.startsWith("127.0.0.1") || window.location.host.startsWith("localhost")) && (window.location.host.substr(-3) == '.io') && (window.location.protocol != "https:"))
+    window.location.protocol = "https";
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<meta http-equiv="cleartype" content="on">
+<style>
+.underline-on-hover:hover {
+    text-decoration: underline;
+}
+.searchForm{
+      border-radius:5px;
+      -moz-border-radius:5px;
+      -webkit-border-radius:5px;
+      width: 900px;
+   }
+#search_results{
+      display: table; margin:0 auto;
+   }
+</style>
+</style>
+
+    
+
+<!-- start custom head snippets -->
+
+<link href="http://localhost:4000/assets/css/lity.min.css" rel="stylesheet">
+<link href="http://localhost:4000/assets/css/cisco-sans.min.css" rel="stylesheet">
+<link href="http://localhost:4000/assets/css/material-scrolltop.css" rel="stylesheet">
+
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="http://localhost:4000/images/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="http://localhost:4000/images/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="http://localhost:4000/images/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-128.png" sizes="128x128" />
+<link rel="shortcut icon" href="http://localhost:4000/images/favicon_cisco.ico" />
+<meta name="application-name" content="&nbsp;"/>
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="http://localhost:4000/images/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="http://localhost:4000/images/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="http://localhost:4000/images/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="http://localhost:4000/images/mstile-310x310.png" />
+
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu" style="padding-left:2em;">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <img src="http://localhost:4000/images/xrdocs_logo.png" width="45px" height="45px" alt="xrdocs logo" style="float:left;">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000">@xrdocs</a></li>
+          <li class="masthead__menu-item"><a href="http://localhost:4000/">Cloud Scale Networking</a></li>
+          
+            
+            
+                
+                    <li class="masthead__menu-item greedy-nav-active"><a href="http://localhost:4000/blogs/">Blogs</a></li>
+                
+            
+
+
+          
+            
+            
+                
+                    <li class="masthead__menu-item"><a href="http://localhost:4000/tutorials/">Tutorials</a></li>
+                
+            
+
+
+          
+            
+            
+                
+                    <li class="masthead__menu-item"><a href="http://localhost:4000/search">Search <i class="fa fa-search" aria-hidden="true"></i></a></li>
+                
+            
+
+
+          
+            
+            
+                
+                    <li class="masthead__menu-item"><a href="http://localhost:4000/tags/">Tags</a></li>
+                
+            
+
+
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/avatars/akshat_bio_photo.jpeg" class="author__avatar" alt="Akshat Sharma">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Akshat Sharma</h3>
+    <p class="author__bio">Evangelist, tinkerer, dog-lover and Technical Marketing Engineer, Cisco.</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+        <li><a href="mailto:akshshar@cisco.com"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+      
+      
+      
+        <li><a href="http://twitter.com/irakshat"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://github.com/akshshar"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <br><button class="btn"><a href="//pdfcrowd.com/url_to_pdf/" style="color:white">Save as PDF</a></button>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Enabling IOS-XR on Third-Party Network Hardware">
+    <meta itemprop="description" content="As the ecosystem of the Service provider access market evolves to include disaggregated network devices as part of the scale-out strategy, Cisco is now enabling IOS-XR on select OCP-compliant network hardware. Here, we dive deeper into what it takes to work with the OCP and whitebox ecosystem and what IOS-XR is doing in this realm.">
+    <meta itemprop="datePublished" content="March 08, 2018">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Enabling IOS-XR on Third-Party Network Hardware
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  18 minutes read
+</p>
+          
+        </header>
+      
+
+    
+
+      <section class="page__content" itemprop="text">
+        <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> On This Page</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#background" id="markdown-toc-background">Background</a></li>
+  <li><a href="#layers-of-the-network-stack" id="markdown-toc-layers-of-the-network-stack">“Layers” of the Network Stack</a></li>
+  <li><a href="#how-we-enabled-ios-xr-on-whitebox-hardware" id="markdown-toc-how-we-enabled-ios-xr-on-whitebox-hardware">How we enabled IOS-XR on whitebox hardware</a>    <ul>
+      <li><a href="#the-decision-stages" id="markdown-toc-the-decision-stages">The Decision Stages</a></li>
+      <li><a href="#putting-it-all-together" id="markdown-toc-putting-it-all-together">Putting it all together</a></li>
+      <li><a href="#deployment-models" id="markdown-toc-deployment-models">Deployment models</a></li>
+    </ul>
+  </li>
+  <li><a href="#what-does-the-integration-look-like" id="markdown-toc-what-does-the-integration-look-like">What does the integration look like?</a>    <ul>
+      <li><a href="#assessing-the-platform-integration" id="markdown-toc-assessing-the-platform-integration">Assessing the platform Integration</a></li>
+    </ul>
+  </li>
+  <li><a href="#where-do-we-go-from-here" id="markdown-toc-where-do-we-go-from-here">Where do we go from here?</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<h2 id="background">Background</h2>
+
+<p>With the recent announcement that <a href="https://blogs.cisco.com/sp/an-architectural-approach-to-flexible-consumption-for-service-providers-with-ios-xr">IOS-XR will now be available on a curated set of third party network hardware</a>, let’s dive a little deeper into technical details of the integration. <a href="https://xrdocs.github.io/cisco-service-layer/blogs/2018-02-16-xr-s-journey-to-the-we-b-st-open-r-integration-with-ios-xr/">In this ongoing series of technical blogs</a>, we’ve demonstrated how IOS-XR with model driven APIs at every layer of the stack enables us to easily integrate with a wide variety of community tools and protocols.</p>
+
+<p>This time I’d like to explain what it takes to enable a Network Operating System (NOS) on whitebox hardware and showcase how IOS-XR  with suitable abstractions at the platform integration layer enabled us to port it to select OCP-compliant hardware for the Service Provider Access market.</p>
+
+<p>In the video below - we show IOS-XR running on OCP compliant hardware, installed and brought up using ONIE and seamlessly integrated with the platform’s capabilities:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qF3A1coJsvY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
+
+<p> 
+ </p>
+
+<p>Before we discuss details, let’s review the various layers of a generic network stack. In case of IOS-XR, these layers have evolved over time to accommodate different networks with varied software and operational requirements.</p>
+
+<h2 id="layers-of-the-network-stack">“Layers” of the Network Stack</h2>
+
+<p>Network disaggregation is generally understood to be a “decoupling” of the network hardware and software. However, we’ve seen a lot of use cases typically associated with network disaggregation being solved by exposing APIs at different layers within the software stack. Over time this has led to a further “disaggregation” within the software stack into multiple layers.</p>
+
+<p>Thus, today when we break down a network device, its constituent parts look something like:</p>
+
+<ol>
+  <li>
+    <p><strong>Network Software</strong>: Consisting of various layers:</p>
+
+    <ul>
+      <li>
+        <p><strong>Platform Integration Layer</strong>: Typically consists of kernel and/or user-land drivers for devices such as fans, leds, sensors etc. The integration of these device specific drivers with the higher layers of the software stack happens at this layer. It this layer that allows a software stack to extract information (e.g. temperature) from sensors and influence component state (e.g. fan speed).</p>
+      </li>
+      <li>
+        <p><strong>Hardware Abstraction Layer</strong>: This layer interacts with the ASIC SDK (provided by the ASIC vendor) and handles programming of the data plane based on RIB state, or LSD (label switch database) state etc.</p>
+      </li>
+      <li>
+        <p><strong>Network Infrastructure/Service Adaptation Layer</strong>:  Typically consists of components such as the RIB, Label Switch database, BFD, network interface handler and APIs for higher layers/agents.</p>
+      </li>
+      <li>
+        <p><strong>Network Application/Protocol Layer</strong>:  This layer contains protocols (BGP, ISIS, OSPF etc.) and features such as L2VPN, L3VPN etc.</p>
+      </li>
+      <li>
+        <p><strong>Manageability Layer</strong>: This layer exposes command line interface (CLI)  for features and protocols in the network application layer along with model-driven APIs for use with automation tools.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Networking Hardware</strong>: Consists of the ASIC that handles forwarding decisions and provides hooks (through the ASIC SDK) to help program route lookup tables in the hardware. The system components such as fans, sensors and optics make up the rest of this layer.</p>
+  </li>
+</ol>
+
+<p>The figure below (click to expand) shows how IOS-XR’s architecture maps to these layers:</p>
+
+<p><a href="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/delayering_the_network_stack.png?raw=true"><img src="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/delayering_the_network_stack.png?raw=true" alt="iosxr_layers" /></a></p>
+
+<p>In this blog, we’ll focus primarily on the layers that lie at the interface of the network software and the hardware i.e. the integration of IOS-XR with platform sensors, optics and the use of OCP technologies (such as ONL modules and onlpdump) to enable it.</p>
+
+<h2 id="how-we-enabled-ios-xr-on-whitebox-hardware">How we enabled IOS-XR on whitebox hardware</h2>
+
+<p>There are four primary steps to enable a NOS on third-party hardware:</p>
+
+<h3 id="the-decision-stages">The Decision Stages</h3>
+
+<hr style="border-top: 2px dashed #A9A9A9;" />
+
+<div class="notice--primary" style="background-color: #bac5de; font-size: 1.1em !important;"><div class="text-center"><p><b>1. Select the Hardware</b></p></div></div>
+
+<p>This may seem obvious but is an
+  important first step to ensure smooth portability of the vendor software on third party network hardware. <br />
+  Since we are using OCP-compliant hardware, we get to utilize the <a href="https://github.com/opencomputeproject/OpenNetworkLinux/tree/master/packages/platforms">ONL driver code/modules on github</a>.</p>
+
+<p>Ultimately when selecting a NOS, integrators look for hardware with a mix of:</p>
+
+<ul>
+  <li><strong>Ports</strong> - the required density of (typically) 100G ports</li>
+  <li><strong>ASIC capabilities</strong> - A lot of the features one can eventually support depend on the capabilities of the underlying ASIC</li>
+</ul>
+
+<p>There are a number of hardware platforms that are already <a href="http://www.opencompute.org/wiki/Networking/SpecsAndDesigns#Accepted_Hardware">OCP-compliant</a> and several others that are <a href="http://www.opencompute.org/wiki/Networking/SpecsAndDesigns#Shared_hardware_specifications_still_under_review">still under review</a>.</p>
+
+<p class="notice--warning">In this blog we describe integration with one of the hardware platforms we selected based on our customer requirements: the Edgecore-AS7816-64x, 100GBE platform that provides line-rate L2 and L3 forwarding across 64 x QSFP28 ports.</p>
+
+<hr style="border-top: 2px dashed #A9A9A9;" />
+
+<div class="notice--primary" style="background-color: #bac5de; font-size: 1.1em !important;"><div class="text-center"><p><b>2. Integrate with the Platform</b></p></div></div>
+
+<p>The term “Platform” here refers to hardware components such as Fans, Power modules, Optics, Sensors etc. The goal is to use available drivers for these hardware components and integrate them with a platform abstraction layer inside the NOS.</p>
+
+<p>This integration stage requires the following steps:</p>
+
+<ol>
+  <li>
+    <p><strong>Port ONL modules for selected hardware into the NOS</strong>:
+The ONL modules for the various OCP-compliant and OCP-inspired hardware platforms are available on <a href="https://github.com/opencomputeproject/OpenNetworkLinux">Github</a> in the opencomputeproject github org.</p>
+
+    <p>For example, under the <code class="highlighter-rouge">packages</code> directory browse to the <code class="highlighter-rouge">platforms/accton/x86-64/x86-64-accton-as7816-64x/modules/builds</code> directory:</p>
+
+    <p><img src="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/onl_accton_7816_kernel_modules.png?raw=true" alt="onl_accton_7816_kernel_modules" /></p>
+
+    <p>What you see are the <strong>kernel modules</strong> for the device <code class="highlighter-rouge">x86-64-accton-as7816-64x</code> that may be ported into a kernel of choice to expose the functionality of the devices’s cpld (complex programmable logic device), fans, leds and power modules.</p>
+
+    <div class="notice--info">
+In Jan,2018 the optics support was shifted to the <a href="http://files.opencompute.org/oc/public.php?service=files&amp;t=48bbcb46d50e013525773459f66d269d">Open optical monitoring(oom)</a> project - common across platforms and available on Github <a href="https://github.com/opencomputeproject/oom">here</a>.  
+If you're still looking for the optics kernel modules however, you will need to check out an older git hash for OpenNetworkLinux:  
+<code>b77d4dde8ea9855843b634a3d41be7b2dedc2dd3</code> - the last one before the OOM change. Here you will find the <code>sfp.c</code> source code still intact:  
+
+<div style="word-wrap: break-word;">
+<blockquote><p><a href="https://github.com/opencomputeproject/OpenNetworkLinux/blob/b77d4dde8ea9855843b634a3d41be7b2dedc2dd3/packages/platforms/accton/x86-64/x86-64-accton-as7816-64x/modules/builds/x86-64-accton-as7816-64x-sfp.c">https://github.com/opencomputeproject/OpenNetworkLinux/blob/b77d4dde8ea9855843b634a3d41be7b2dedc2dd3/packages/platforms/accton/x86-64/x86-64-accton-as7816-64x/modules/builds/x86-64-accton-as7816-64x-sfp.c</a></p>
+</blockquote>
+</div>
+</div>
+  </li>
+  <li>
+    <p><strong>Platform Abstraction inside the NOS</strong>:
+The Platform abstraction layer helps abstract the underlying capabilities of the hardware sensors, fans, optics and power modules and exposes an API north-bound to integrate with higher layer of the NOS.</p>
+
+    <p>The technique through which the underlying capabilities of the hardware are exposed to the platform abstraction layer depends on the type of hardware in play - the presence of a BMC (Baseboard management controller) may imply that the NOS leverages something like <a href="https://github.com/facebook/openbmc">OpenBMC</a>, whereas an absence of a BMC may imply that ONLP (ONL platform library) would instead serve this purpose.</p>
+
+    <p>There are two main ways to expose the underlying hardware’s capabilities to the platform abstraction layer: using platform libraries such as ONLP (Open Network Linux Platform) or using <a href="https://github.com/facebook/openbmc">OpenBMC</a> (if available) for hardware with a BMC (Baseboard Management Controller).</p>
+
+    <p><a name="platform_integration_decision"></a>
+The <strong>ONL platform library (ONLP)</strong> is an abstraction layer used to  inventory, manage, and monitor all devices inside the system (fans, power supplies, LEDs, SFP/SFP+/QSFP, temperature sensors, etc.).</p>
+
+    <p class="notice--info">Keep in mind that ONLP is not really needed if you’re willing to write your own hooks that manage the capabilities exposed by the kernel modules. But since it’s already available on Github, integrating ONLP and its application layer daemon (onlpdump) could make parts of the integration easier.</p>
+
+    <p>To give you a gist of the pieces involved, ONLP consists of two layers:</p>
+    <ul>
+      <li>The <strong>“application to platform” APIs</strong> that can be found here:
+        <div style="word-wrap: break-word;">
+<blockquote><p><a href="https://github.com/opencomputeproject/OpenNetworkLinux/tree/master/packages/base/any/onlp/src/onlp/module/inc/onlp">https://github.com/opencomputeproject/OpenNetworkLinux/tree/master/packages/base/any/onlp/src/onlp/module/inc/onlp</a>
+</p>            
+</blockquote>
+</div>
+      </li>
+      <li>The <strong>“platform to hardware” APIs</strong> found here:
+        <div style="word-wrap: break-word;">           
+<blockquote><p><a href="https://github.com/opencomputeproject/OpenNetworkLinux/tree/master/packages/base/any/onlp/src/onlp/module/inc/onlp/platformi">https://github.com/opencomputeproject/OpenNetworkLinux/tree/master/packages/base/any/onlp/src/onlp/module/inc/onlp/platformi</a>
+</p>
+</blockquote>
+</div>
+        <p>with hardware specific hooks implemented in hardware platform  specific directories:</p>
+        <div style="word-wrap: break-word;">
+<blockquote><p><a href="https://github.com/opencomputeproject/OpenNetworkLinux/tree/master/packages/platforms/accton/x86-64/x86-64-accton-as7816-64x/onlp/builds/src/module/src">https://github.com/opencomputeproject/OpenNetworkLinux/tree/master/packages/platforms/accton/x86-64/x86-64-accton-as7816-64x/onlp/builds/src/module/src</a>
+</p>
+</blockquote>
+</div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p class="notice--warning"> 
+   
+  We will show how IOS-XR already contains a platform abstraction layer that allows it to hook up with ONLP and integrate with the underlying platform.</p>
+
+<hr style="border-top: 2px dashed #A9A9A9;" />
+
+<div class="notice--primary" style="background-color: #bac5de; font-size: 1.1em !important;"><div class="text-center"><p><b>3. Integrate the ASIC SDK</b></p></div></div>
+
+<p>While the OEM vendor provides the APIs/modules
+  that expose functionality of the platform components such as fans, psu modules, leds and sfps, The ASIC SDK comes from the ASIC vendor. For example, Edgecore-AS7816-64x platform uses the Broadcom Tomahawk II (56970) ASIC.</p>
+
+<p>Broadcom provides an Open API on top of their SDK called <a href="http://broadcom-switch.github.io/OpenNSL/doc/html/index.html">OpenNSL</a> for integration with a Hardware Abstraction Layer (HAL) in the NOS.</p>
+
+<hr style="border-top: 2px dashed #A9A9A9;" />
+
+<div class="notice--primary" style="background-color: #bac5de; font-size: 1.1em !important;"><div class="text-center"><p><b>4. Provide a NOS installer for a bootloader such as ONIE</b></p></div></div>
+
+<p>Once you’ve built a NOS capable of running on the selected hardware, you need some way for the device to install and boot the NOS. ONIE may be the available bootloader for the system. It is very well documented and details can be found here:</p>
+
+<blockquote>
+  <p><a href="https://opencomputeproject.github.io/onie/">https://opencomputeproject.github.io/onie/</a></p>
+</blockquote>
+
+<p>To build an ONIE-compatible installer, follow the instructions in the developer section:</p>
+
+<blockquote>
+  <p><a href="https://opencomputeproject.github.io/onie/developers/demo_os.html">https://opencomputeproject.github.io/onie/developers/demo_os.html</a></p>
+</blockquote>
+
+<p class="notice--warning">IOS-XR NOS image is packaged up into an ONIE-compatible NOS installer called <strong>iosxrwb-k9.amd64.installer</strong>. This installer is then fetched and installed using ONIE on the whitebox hardware.</p>
+
+<hr style="border-top: 2px dashed #A9A9A9;" />
+
+<h3 id="putting-it-all-together">Putting it all together</h3>
+
+<p>Let’s summarize the decision stages described above. The different touch points (Platform Integration and ASIC-SDK integration) in play are showcased below:</p>
+
+<p> <br />
+ </p>
+
+<p><img src="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/xr_on_non_bmc_wb.png?raw=true" alt="xr-on-non-bmc" /></p>
+
+<p> <br />
+ </p>
+
+<p>The BSP contains the ONL modules for the platform, compiled into the kernel. Typically, the NOS  (IOS-XR) contains the <strong>Platform Abstraction Layer</strong> to integrate the platform either by using ONLP APIs or directly reading from the sysfs paths exposed by the installed kernel modules.
+The <strong>Optics Abstraction layer</strong> integrates with the optics device-driver/kernel-module for the platform and handle Optics in the NOS inventory directly. In the future, we can look at hooking up the OOM (open optical monitoring) layer with the optics abstraction layer for more enhanced functionality.
+The ASIC SDK API hooks up to a HAL (Hardware Adaptation Layer) that would in turn provide north bound APIs to the NOS layers such as FIB for route or label programming.</p>
+
+<h3 id="deployment-models">Deployment models</h3>
+
+<p>The deployment models for a NOS are a function of how an integrator views the software being deployed on whitebox hardware:</p>
+
+<ol>
+  <li>
+    <p><strong>As a complete Software Stack</strong>:  In this scenario, the NOS vendor includes a Linux distribution (rootfs and kernel) within the NOS image along with all the platform modules and any ASIC SDK that may be required.</p>
+  </li>
+  <li>
+    <p><strong>As an application on Linux</strong>: In this scenario, the integrator is expected to run the network stack as an application on top of a Linux distribution (rootfs and kernel) of choice. The platform modules and any ASIC SDK required must be installed by the integrator. The Vendor NOS still contains all the abstraction layers to work with the modules installed by the integrator.</p>
+  </li>
+</ol>
+
+<p><strong>Native</strong>:</p>
+
+<p>This deployment model is used when the vendor NOS (IOS-XR) is viewed as “a complete Software Stack” responsible for the Linux distribution(rootfs and the Kernel) as well as the protocol stack capabilities.</p>
+
+<p><img src="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/xr_native_deploy.png?raw=true" alt="xr_native_deploy" /></p>
+
+<p>IOS-XR is packaged up into an ONIE-compatible installer and is brought up on the system natively. This installed NOS contains all the kernel modules necessary to work with the platform and the ASIC in question.</p>
+
+<p><strong>Container (Docker, LXC etc.)</strong></p>
+
+<p>This deployment model is used when the vendor NOS (IOS-XR) is viewed as an “application” on top of a custom OS and is responsible <strong>only</strong> for the abstraction layers and the protocol stack capabilities. The Linux distribution(rootfs and kernel) running natively on the platform is installed and set up by the integrator.</p>
+
+<p><img src="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/xr_container_deploy.png?raw=true" alt="xr_container_deploy" /></p>
+
+<p>As shown above, IOS-XR is packaged into a container image (Docker, LXC etc.) and published into a either a private or a reachable repository (Docker registry for example). <br />
+The network operator can then pull and load the container image directly onto the custom OS using the installed container daemon or through a combination with configuration management tools like Ansible, Puppet, Chef etc.</p>
+
+<h2 id="what-does-the-integration-look-like">What does the integration look like?</h2>
+
+<p>So, the burning question: What does the integration of IOS-XR on OCP hardware actually look like?.</p>
+
+<p>Since I have an Edgecore-AS7816-64X lying around, let’s begin by setting up a DHCP server to respond with a default-url option and a web server with the ONIE-compatible NOS installer for IOS-XR.</p>
+
+<p>The relevant ISC-DHCP server config snippet is shown below:</p>
+
+<p><a id="dhcp-server-config"></a></p>
+
+<div class="highlighter-rouge">
+<pre class="highlight">
+<code>
+host AS7816-64X {
+  hardware ethernet a8:2b:b5:87:9f:f4;
+  fixed-address 172.30.0.60;
+  next-server 172.30.0.22;
+  <mark>option default-url = "http://172.30.0.22/AS7816-64X/iosxrwb-k9.amd64.installer";</mark>
+  if exists user-class and option user-class = "exr-config" {
+    <span style="background-color: #FDD7E4">filename = "http://172.30.0.22/AS7816-64X/scripts/as7816-64x_nso_ztp.py";</span>
+  }
+}
+</code>
+</pre>
+</div>
+
+<p class="notice--info">Notice the yellow highlighted default-url pointing to the ONIE-compatible NOS installer for IOS-XR: <code class="highlighter-rouge">iosxrwb-k9.amd64.installer</code>.
+This is the <strong>native</strong> deployment model described in the previous section. The installer contains the complete Software Stack replete with the kernel modules that help integrate with the platform and the ASIC. Further it contains a Wind River Linux (WRL) distribution (rootfs and kernel).</p>
+
+<p>Let’s attempt to fetch and install this image by rebooting the network device.</p>
+
+<p class="notice--warning"><strong>NOTE</strong>: If there is a NOS already installed on the device, then the NOS might have options to force the device to boot into <code class="highlighter-rouge">ONIE</code> mode directly. If it does not, make sure you select the <code class="highlighter-rouge">ONIE</code> loader when the relevant screen pops up upon reboot.</p>
+
+<p>Once selected, the <code class="highlighter-rouge">ONIE</code> loader looks something like:</p>
+
+<p class="notice--primary"><a href="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/onie_uninstall_os.png?raw=true"><img src="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/onie_uninstall_os.png?raw=true" alt="onie_grub_menu" /></a></p>
+
+<p>As is evident, I begin by selecting the <code class="highlighter-rouge">Uninstall OS</code> option first. This will force the device to erase internal mass storage devices and remove the existing NOS, before rebooting and attempting a fresh install through ONIE.</p>
+
+<p class="notice--primary"><a href="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/onie_partition_erase.png?raw=true"><img src="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/onie_partition_erase.png?raw=true" alt="onie_grub_menu" /></a></p>
+
+<p>Upon reboot, the <code class="highlighter-rouge">Install OS</code> option should automatically get selected, thereby triggering the download of the ONIE-compatible installer image of IOS-XR based on DHCP interactions with the dhcp server:</p>
+
+<p class="notice--primary"><a href="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/onie_install_os.png?raw=true"><img src="https://github.com/xrdocs/cloud-scale-networking/blob/gh-pages/images/onie_install_os.png?raw=true" alt="onie_grub_menu" /></a></p>
+
+<div class="highlighter-rouge">
+<pre class="highlight">
+<code>
+Info: Attempting file://dev/sda3/onie-installer-x86_64.bin ...
+Info: Attempting file://dev/sda3/onie-installer ...
+Info: Attempting file://dev/sda3/onie-installer.bin ...
+Info: Attempting http://172.30.0.22/AS7816-64X/iosxrwb-k9.amd64.installer ...
+<mark>ONIE: Executing installer: http://172.30.0.22/AS7816-64X/iosxrwb-k9.amd64.installer</mark>
+installer: computing checksum of original archive
+installer: checksum is OK
+installer: extracting pad
+1+0 records in
+1+0 records out
+512 bytes (512B) copied, 0.000014 seconds, 34.9MB/s
+installer: copying file before resetting pad
+installer: resetting pad
+1+0 records in
+1+0 records out
+512 bytes (512B) copied, 0.000012 seconds, 40.7MB/s
+installer: extracting shar into /tmp/sfx-dFtTra
+installer: invoking installer xrinstaller.sh
+Found installer tmpfs on /tmp/sfx-dFtTra (/tmp) using opts rw,noatime
+Unpacking ONL installer files...
+<mark>Extracting from /tmp/sfx-dFtTra/onie-installer.zip: iosxrwb-k9.iso ...
+Archive:  /tmp/sfx-dFtTra/onie-installer.zip
+  inflating: iosxrwb-k9.iso</mark>
+Extracting initrd to /tmp/sfx-dFtTra/initrd-F3ONm5
+</code>
+</pre>
+</div>
+
+<p class="notice--success">Awesome! The <code class="highlighter-rouge">default-url</code> option set up on the dhcp server allowed ONIE to pick up the url for the NOS installer and start expanding and booting it.</p>
+
+<p>The next step is <strong>ZTP</strong> -  enabling IOS-XR on the whitebox platform automatically ensures that capabilities such as ZTP become available for use.
+If you haven’t heard about ZTP yet, hop over to these great tutorials and blogs on xrdocs:</p>
+
+<blockquote>
+  <p><a href="https://xrdocs.github.io/software-management/tutorials/2016-08-26-working-with-ztp/">https://xrdocs.github.io/software-management/tutorials/2016-08-26-working-with-ztp/</a>
+<a href="https://xrdocs.github.io/software-management/blogs/2017-09-21-ios-xr-ztp-learning-through-packet-captures/">https://xrdocs.github.io/software-management/blogs/2017-09-21-ios-xr-ztp-learning-through-packet-captures/</a></p>
+</blockquote>
+
+<p>Notice the red-marked <code class="highlighter-rouge">filename</code> field in the DHCP server config shown <a href="#dhcp-server-config">earlier</a>. This field is utilized during the ZTP phase to return a custom python script called <code class="highlighter-rouge">as7816-64x_nso_ztp.py</code> to execute on IOS-XR once it comes up.  The captured reply from the DHCP server is shown below - notice the returned filename, in line with the server configuration.</p>
+
+<div class="highlighter-rouge">
+<pre class="highlight">
+<code>
+  TIME: 2018-03-11 06:12:10.692
+    IP: 172.30.0.25 (0:50:56:b7:50:d3) &gt; 172.30.0.60 (a8:2b:b5:87:9f:f4)
+    OP: 2 (BOOTPREPLY)
+ HTYPE: 1 (Ethernet)
+  HLEN: 6
+  HOPS: 0
+   XID: a8e9d54c
+  SECS: 0
+ FLAGS: 0
+CIADDR: 0.0.0.0
+YIADDR: 172.30.0.60
+SIADDR: 172.30.0.22
+GIADDR: 0.0.0.0
+CHADDR: a8:2b:b5:87:9f:f4:00:00:00:00:00:00:00:00:00:00
+ SNAME: .
+ <mark>FNAME: http://172.30.0.22/AS7816-64X/scripts/as7816-64x_nso_ztp.py</mark>
+OPTION:  53 (  1) DHCP message type         5 (DHCPACK)
+OPTION:  54 (  4) Server identifier         172.30.0.25
+OPTION:  51 (  4) IP address leasetime      86400 (24h)
+OPTION:   1 (  4) Subnet mask               255.255.255.0
+OPTION:   3 (  4) Routers                   172.30.0.1
+OPTION:   6 (  4) DNS server                172.30.0.25
+OPTION:  12 ( 10) Host name                 AS7816-64X
+OPTION: 114 ( 56) URL                       687474703a2f2f31 http://1
+					    37322e33302e302e 72.30.0.
+					    32322f4153373831 22/AS781
+					    362d3634582f696f 6-64X/io
+					    73787277622d6b39 sxrwb-k9
+					    2e616d6436342e69 .amd64.i
+					    6e7374616c6c6572 nstaller                 
+OPTION:  28 (  4) Broadcast address         172.30.0.255
+OPTION:  15 ( 11) Domainname                cisco.local
+---------------------------------------------------------------------------
+</code>
+</pre>
+</div>
+
+<p>This script is set up to configure an admin user on the system and apply a configuration that enables basic features such as ISIS, LACP etc.</p>
+
+<p>In the end, we are presented with a familiar login prompt if we connect to the box over SSH:</p>
+
+<div class="highlighter-rouge">
+<pre class="highlight">
+<code>
+cisco@server:~/$ ssh cisco@172.30.0.61
+The authenticity of host '172.30.0.61 (172.30.0.61)' can't be established.
+RSA key fingerprint is 45:cb:02:4a:b7:c9:05:ff:6d:74:26:b8:c0:0d:9c:e5.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '172.30.0.61' (RSA) to the list of known hosts.
+Password:
+
+RP/0/RP0/CPU0:leaf3#
+RP/0/RP0/CPU0:leaf3#
+RP/0/RP0/CPU0:leaf3#show version
+Fri Mar  2 10:15:33.919 UTC
+
+<mark>Cisco IOS XR Software, Version 6.5.1.04I
+Copyright (c) 2013-2018 by Cisco Systems, Inc.</mark>
+
+Build Information:
+ Built By     : balsup
+ Built On     : Fri Mar  2 02:04:10 PST 2018
+ Build Host   : vxr-slurm-124
+ Workspace    : /nobackup/balsup/release
+ Version      : 6.5.1.04I
+ Location     : /opt/cisco/XR/packages/
+
+<mark>Accton_as7816_64x () processor</mark>
+System uptime is 19 minutes
+
+RP/0/RP0/CPU0:leaf3#
+RP/0/RP0/CPU0:leaf3#
+</code>
+</pre>
+</div>
+
+<p class="notice--success">And there you have it - IOS-XR running on an OCP compliant platform.</p>
+
+<h3 id="assessing-the-platform-integration">Assessing the platform Integration</h3>
+
+<p>As mentioned <a href="#platform_integration_decision">earlier</a>, platform integration involves hooking up the abstraction layers (platform, optics) within IOS-XR to the capabilities exposed by the kernel modules available from the ONL repository while also enabling onlpdump [optional] in the linux user-space.</p>
+
+<p>To begin with, let’s look at the kernel modules installed on the system:</p>
+
+<ul>
+  <li>
+    <p><strong>Platform Kernel modules (from ONL repo)</strong>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> RP/0/RP0/CPU0:leaf3#
+ RP/0/RP0/CPU0:leaf3#bash
+ Fri Mar  2 10:35:30.755 UTC
+ [leaf3:~]$
+ [leaf3:~]$
+ [leaf3:~]$ lsmod | grep accton
+ x86_64_accton_as7816_64x_sfp    14621  0
+ x86_64_accton_as7816_64x_psu     3322  0
+ x86_64_accton_as7816_64x_leds     5564  0
+ x86_64_accton_as7816_64x_fan     6715  0 accton_i2c_cpld         9016  3 x86_64_accton_as7816_64x_leds,x86_64_accton_as7816_64x_psu,x86_64_accton_as7816_64x_sfp
+ i2c_core               29699  12
+ igb,at24,lm75,i2c_i801,i2c_mux,ym2651y,i2c_algo_bit,x86_64_accton_as7816_64x_fan,x86_64_accton_as7816_64x_psu,x86_64_accton_as7816_64x_sfp,i2c_mux_pca954x,accton_i2c_cpld
+ [leaf3:~]$
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>Now let’s compare some of the outputs from IOS-XR and onlpdump on the same system to see how they match up:</p>
+
+<p><strong>Fan Speeds</strong>:</p>
+
+<ul>
+  <li>
+    <p><strong>IOS-XR CLI</strong>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RP/0/RP0/CPU0:leaf3#admin show environment fan
+Fri Mar  2 10:44:14.704 UTC
+=====================================
+			Fan speed (rpm)
+Location     FRU Type           FAN_0
+-------------------------------------
+0/FT0        7816-FN-BK         13800   
+0/FT1        7816-FN-BK         14100   
+0/FT2        7816-FN-BK         14000   
+0/FT3        7816-FN-BK         13800   
+
+0/PM0        7816-FN-BK         10800   
+
+0/PM1        7816-FN-BK          8096   
+RP/0/RP0/CPU0:leaf3#
+RP/0/RP0/CPU0:leaf3#
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Onlpdump Output</strong>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RP/0/RP0/CPU0:leaf3#bash
+Fri Mar  2 10:44:23.913 UTC
+[leaf3:~]$
+[leaf3:~]$ /opt/cisco/hostos/bin/onlpdump | grep -A8 'fan @ [1-4]'
+   fan @ 1 = {
+       Description: Chassis Fan - 1
+       Status: 0x00000009 [ PRESENT,F2B ]
+       Caps:   0x00000038 [ SET_PERCENTAGE,GET_RPM,GET_PERCENTAGE ]
+       RPM:    13800
+       Per:    54
+       Model:  NULL
+       SN:     NULL
+   }
+   fan @ 2 = {
+       Description: Chassis Fan - 2
+       Status: 0x00000009 [ PRESENT,F2B ]
+       Caps:   0x00000038 [ SET_PERCENTAGE,GET_RPM,GET_PERCENTAGE ]
+       RPM:    14100
+       Per:    55
+       Model:  NULL
+       SN:     NULL
+   }
+   fan @ 3 = {
+       Description: Chassis Fan - 3
+       Status: 0x00000009 [ PRESENT,F2B ]
+       Caps:   0x00000038 [ SET_PERCENTAGE,GET_RPM,GET_PERCENTAGE ]
+       RPM:    14000
+       Per:    54
+       Model:  NULL
+       SN:     NULL
+   }
+   fan @ 4 = {
+       Description: Chassis Fan - 4
+       Status: 0x00000009 [ PRESENT,F2B ]
+       Caps:   0x00000038 [ SET_PERCENTAGE,GET_RPM,GET_PERCENTAGE ]
+       RPM:    13800
+       Per:    54
+       Model:  NULL
+       SN:     NULL
+   }
+[leaf3:~]$
+
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><strong>Temperature Checks</strong>:</p>
+
+<ul>
+  <li>
+    <p><strong>IOS-XR CLI</strong>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RP/0/RP0/CPU0:leaf3#admin show environment temperatures location 0/RP0
+Fri Mar  2 10:49:07.667 UTC
+================================================================================
+Location  TEMPERATURE                 Value   Crit Major Minor Minor Major  Crit
+          Sensor                    (deg C)   (Lo) (Lo)  (Lo)  (Hi)  (Hi)   (Hi)
+--------------------------------------------------------------------------------
+0/RP0        
+        ! CPU Core                       67      0     0     0    45    55    60
+        ! ChassisThermalSensor 1         48      0     0     0    45    55    60
+        ! ChassisThermalSensor 2         54      0     0     0    45    55    60
+          ChassisThermalSensor 3         36      0     0     0    45    55    60
+          ChassisThermalSensor 4         39      0     0     0    45    55    60
+          ChassisThermalSensor 5         44      0     0     0    45    55    60
+          ChassisThermalSensor 6         41      0     0     0    45    55    60
+          NP1                            64    -10    -5     0   105   110   115
+          NP2                            63    -10    -5     0   105   110   115
+          NP3                            63    -10    -5     0   105   110   115
+          NP4                            64    -10    -5     0   105   110   115
+          NP5                            64    -10    -5     0   105   110   115
+          NP6                            64    -10    -5     0   105   110   115
+          NP7                            63    -10    -5     0   105   110   115
+          NP8                            63    -10    -5     0   105   110   115
+RP/0/RP0/CPU0:leaf3#
+
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Onlpdump Output</strong>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RP/0/RP0/CPU0:leaf3#
+RP/0/RP0/CPU0:leaf3#bash
+Fri Mar  2 10:49:15.746 UTC
+[leaf3:~]$
+[leaf3:~]$
+[leaf3:~]$ /opt/cisco/hostos/bin/onlpdump | grep -A10 thermal
+   thermal @ 1 = {
+       Description: CPU Core
+       Status: 0x00000001 [ PRESENT ]
+       Caps:   0x0000000f [ GET_TEMPERATURE,GET_WARNING_THRESHOLD,GET_ERROR_THRESHOLD,GET_SHUTDOWN_THRESHOLD ]
+       Temperature: 64000
+       thresholds = {
+           Warning: 45000
+           Error: 55000
+           Shutdown: 60000
+       }
+   }
+   thermal @ 2 = {
+       Description: Chassis Thermal Sensor 1
+       Status: 0x00000001 [ PRESENT ]
+       Caps:   0x0000000f [ GET_TEMPERATURE,GET_WARNING_THRESHOLD,GET_ERROR_THRESHOLD,GET_SHUTDOWN_THRESHOLD ]
+       Temperature: 48500
+       thresholds = {
+           Warning: 45000
+           Error: 55000
+           Shutdown: 60000
+       }
+   }
+   thermal @ 3 = {
+       Description: Chassis Thermal Sensor 2
+       Status: 0x00000001 [ PRESENT ]
+       Caps:   0x0000000f [ GET_TEMPERATURE,GET_WARNING_THRESHOLD,GET_ERROR_THRESHOLD,GET_SHUTDOWN_THRESHOLD ]
+       Temperature: 54000
+       thresholds = {
+           Warning: 45000
+           Error: 55000
+           Shutdown: 60000
+       }
+   }
+   thermal @ 4 = {
+       Description: Chassis Thermal Sensor 3
+       Status: 0x00000001 [ PRESENT ]
+       Caps:   0x0000000f [ GET_TEMPERATURE,GET_WARNING_THRESHOLD,GET_ERROR_THRESHOLD,GET_SHUTDOWN_THRESHOLD ]
+       Temperature: 36000
+       thresholds = {
+           Warning: 45000
+           Error: 55000
+           Shutdown: 60000
+       }
+   }
+   thermal @ 5 = {
+       Description: Chassis Thermal Sensor 4
+       Status: 0x00000001 [ PRESENT ]
+       Caps:   0x0000000f [ GET_TEMPERATURE,GET_WARNING_THRESHOLD,GET_ERROR_THRESHOLD,GET_SHUTDOWN_THRESHOLD ]
+       Temperature: 39500
+       thresholds = {
+           Warning: 45000
+           Error: 55000
+           Shutdown: 60000
+       }
+   }
+   thermal @ 6 = {
+       Description: Chassis Thermal Sensor 5
+       Status: 0x00000001 [ PRESENT ]
+       Caps:   0x0000000f [ GET_TEMPERATURE,GET_WARNING_THRESHOLD,GET_ERROR_THRESHOLD,GET_SHUTDOWN_THRESHOLD ]
+       Temperature: 44500
+       thresholds = {
+           Warning: 45000
+           Error: 55000
+           Shutdown: 60000
+       }
+   }
+   thermal @ 7 = {
+       Description: Chassis Thermal Sensor 6
+       Status: 0x00000001 [ PRESENT ]
+       Caps:   0x0000000f [ GET_TEMPERATURE,GET_WARNING_THRESHOLD,GET_ERROR_THRESHOLD,GET_SHUTDOWN_THRESHOLD ]
+       Temperature: 41000
+       thresholds = {
+           Warning: 45000
+           Error: 55000
+           Shutdown: 60000
+       }
+   }
+--
+       thermal @ 8 = {
+           Description: PSU-1 Thermal Sensor 1
+           Status: 0x00000001 [ PRESENT ]
+           Caps:   0x0000000f [ GET_TEMPERATURE,GET_WARNING_THRESHOLD,GET_ERROR_THRESHOLD,GET_SHUTDOWN_THRESHOLD ]
+           Temperature: 40000
+           thresholds = {
+               Warning: 45000
+               Error: 55000
+               Shutdown: 60000
+           }
+       }
+--
+       thermal @ 9 = {
+           Description: PSU-2 Thermal Sensor 1
+           Status: 0x00000001 [ PRESENT ]
+           Caps:   0x0000000f [ GET_TEMPERATURE,GET_WARNING_THRESHOLD,GET_ERROR_THRESHOLD,GET_SHUTDOWN_THRESHOLD ]
+           Temperature: 33000
+           thresholds = {
+               Warning: 45000
+               Error: 55000
+               Shutdown: 60000
+           }
+       }
+[leaf3:~]$
+
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>Similarly, <strong>Optics</strong>:</p>
+
+<ul>
+  <li>
+    <p><strong>IOS-XR CLI</strong>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RP/0/RP0/CPU0:leaf3#show  inventory
+Fri Mar  2 11:06:16.559 UTC
+NAME: "0/RP0", DESCR: "Accton-as7816-64x Route processor"
+PID: 7816-64X-O-AC-F   , VID: v01, SN: 664X1735002
+
+NAME: "HundredGigE0/0/0/0", DESCR: "Cisco QSFP28 100G AOC Pluggable Optics Module"
+PID: QSFP-100G-AOC10M  , VID: V01, SN: FIW211303CS-A
+
+NAME: "HundredGigE0/0/0/1", DESCR: "Cisco QSFP28 100G AOC Pluggable Optics Module"
+PID: QSFP-100G-AOC10M  , VID: V01, SN: FIW211303Z9-A
+
+NAME: "HundredGigE0/0/0/62", DESCR: "Cisco QSFP28 100G SR4 Pluggable Optics Module"
+PID: QSFP-100G-SR4-S   , VID: V01, SN: AVF1940G0VM
+
+NAME: "HundredGigE0/0/0/63", DESCR: "Cisco QSFP28 100G SR4 Pluggable Optics Module"
+PID: QSFP-100G-SR4-S   , VID: V01, SN: AVF1941G0DK
+
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Onlpdump Output</strong>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RP/0/RP0/CPU0:leaf3#bash
+Fri Mar  2 11:06:21.072 UTC
+[leaf3:~]$
+[leaf3:~]$ /opt/cisco/hostos/bin/onlpdump | grep sfp
+[leaf3:~]$ /opt/cisco/hostos/bin/onlpdump -S | grep -v NONE
+Port  Type            Media   Status  Len    Vendor            Model             S/N             
+----  --------------  ------  ------  -----  ----------------  ----------------  ----------------
+   0  100G-AOC        Fiber           10m    CISCO-FINISAR     FCBN425QE1C10-C1  FIW211303CS-A   
+   1  100G-AOC        Fiber           10m    CISCO-FINISAR     FCBN425QE1C10-C1  FIW211303Z9-A   
+  62  100GBASE-SR4    Fiber                  CISCO-AVAGO       AFBR-89CDDZ-CS1   AVF1940G0VM     
+  63  100GBASE-SR4    Fiber                  CISCO-AVAGO       AFBR-89CDDZ-CS1   AVF1941G0DK     
+
+[leaf3:~]$
+
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>and so on….</p>
+
+<p class="notice--success">The combination of ONLP and IOS-XR’s platform integration resembles IOS-XR’s integration with Cisco Hardware such as the NCS5500 or NCS5000 series.</p>
+
+<h2 id="where-do-we-go-from-here">Where do we go from here?</h2>
+
+<p>In future blogs, we intend to have a deeper discussion on the underlying technology we used in our integration and show how some of IOS-XR’s carrier grade features behave on OCP-compliant hardware (Spoiler Alert!: pretty well 😀).</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#access" class="page__taxonomy-item" rel="tag">access</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#accton" class="page__taxonomy-item" rel="tag">Accton</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#api" class="page__taxonomy-item" rel="tag">API</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#broadcom" class="page__taxonomy-item" rel="tag">Broadcom</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#cisco" class="page__taxonomy-item" rel="tag">Cisco</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#edgecore" class="page__taxonomy-item" rel="tag">Edgecore</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#ios-xr" class="page__taxonomy-item" rel="tag">IOS-XR</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#journey-to-the-web" class="page__taxonomy-item" rel="tag">journey-to-the-web</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#ocp" class="page__taxonomy-item" rel="tag">OCP</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#ofa" class="page__taxonomy-item" rel="tag">OFA</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#onl" class="page__taxonomy-item" rel="tag">ONL</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#platform" class="page__taxonomy-item" rel="tag">Platform</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#service-layer" class="page__taxonomy-item" rel="tag">Service-Layer</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#service-provider" class="page__taxonomy-item" rel="tag">service-provider</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-08T17:33:00+00:00">March 08, 2018</time></p>
+        
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blogs/2018-03-08-enabling-ios-xr-on-third-party-network-hardware/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blogs/2018-03-08-enabling-ios-xr-on-third-party-network-hardware/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http://localhost:4000/blogs/2018-03-08-enabling-ios-xr-on-third-party-network-hardware/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/blogs/2018-03-08-enabling-ios-xr-on-third-party-network-hardware/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+
+    <br>
+    <br>
+    <br>
+</section>
+
+
+    </div>
+
+    
+      
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/CiscoDevNet"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/xrdocs"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">This site is maintained by Cisco Systems, Inc. employees. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+<script src="http://localhost:4000/assets/js/scrollmenu.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78256516-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'xrdocs';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+<!-- material-scrolltop button -->
+<button class="material-scrolltop" type="button"></button>
+
+<!-- material-scrolltop plugin -->
+<script src="http://localhost:4000/assets/js/material-scrolltop.js"></script>
+
+<!-- Initialize material-scrolltop with (minimal) -->
+<script>
+    $('body').materialScrollTop();
+</script>
+
+
+  </body>
+</html>
+
